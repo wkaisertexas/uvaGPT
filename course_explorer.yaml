@@ -1,0 +1,81 @@
+openapi: 3.0.0
+info:
+  title: UVACourseExplorer API
+  version: 1.0.0
+  description: API for searching courses at the University of Virginia.
+servers:
+  - url: https://server-app.fly.dev
+paths:
+  /search:
+    post:
+      summary: Search for courses
+      description: Allows users to search for courses based on various criteria.
+      operationId: searchCourses
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - searchInput
+                - getGraphData
+              properties:
+                searchInput:
+                  type: string
+                  example: "history of the world"
+                academicLevelFilter:
+                  type: string
+                  enum:
+                    - "all"
+                  example: "all"
+                semesterFilter:
+                  type: string
+                  enum:
+                    - "latest"
+                  example: "latest"
+                getGraphData:
+                  type: boolean
+                  example: false
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  resultData:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Course'
+                  PCATransformedQuery:
+                    type: string
+components:
+  schemas:
+    Course:
+      type: object
+      properties:
+        level:
+          type: string
+        catalog_number:
+          type: string
+        class_number:
+          type: integer
+        subject:
+          type: string
+        name:
+          type: string
+        credits:
+          type: string
+        description:
+          type: string
+        mnemonic:
+          type: string
+        group:
+          type: string
+        strm:
+          type: integer
+        similarity_score:
+          type: number
+          format: double

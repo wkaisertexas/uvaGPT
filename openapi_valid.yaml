@@ -1,0 +1,216 @@
+openapi: "3.0.0"
+info:
+  title: UVA GPT API
+  version: 1.0.0
+  description: API for accessing domain-specific features for the University of Virginia (UVA) using GPT.
+  license:
+    name: MIT
+servers:
+  - url: https://us-central1-uvagpt.cloudfunctions.net
+
+paths:
+  /search_classes:
+    post:
+      summary: Search for classes
+      description: Allows searching for classes at the University of Virginia based on a query.
+      operationId: searchClasses
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  description: The search query.
+      responses:
+        '200':
+          description: A list of classes matching the query.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    title:
+                      type: string
+                      description: The title of the class.
+                    description:
+                      type: string
+                      description: The description of the class.
+                    score:
+                      type: number
+                      description: The score of the class match.
+                    avg_rating:
+                      type: number
+                      description: The average rating of the class.
+                    url:
+                      type: string
+                      format: uri
+                      description: The URL of the class information.
+                    ref:
+                      type: string
+                      description: The reference of the class.
+
+  /search_clubs:
+    post:
+      summary: Search for clubs
+      description: Allows searching for clubs at the University of Virginia based on a query.
+      operationId: searchClubs
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  description: The search query.
+      responses:
+        '200':
+          description: A list of clubs matching the query.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties: # Fixed indentation issue here
+                    memberCount:
+                      type: integer
+                      description: The number of members in the club.
+                    regularMeetingLocation:
+                      type: string
+                      description: The regular meeting location of the club.
+                    description:
+                      type: string
+                      description: The description of the club.
+                    regularMeetingTime:
+                      type: string
+                      description: The regular meeting time of the club.
+                    name:
+                      type: string
+                      description: The name of the club.
+                    categories:
+                      type: array
+                      items:
+                        type: string
+                      description: The categories of the club.
+                    cover:
+                      type: string
+                      description: The cover image URL of the club.
+                    photo:
+                      type: string
+                      format: uri # Added format for consistency
+                      description: The photo URL of the club.
+                    url:
+                      type: string
+                      format: uri
+                      description: The URL of the club information.
+                    score:
+                      type: number
+                      description: The score of the club match.
+
+  /find_professors:
+    post:
+      summary: Find professors
+      description: Allows finding professors at the University of Virginia based on a query.
+      operationId: findProfessors
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+                  description: The search query.
+      responses:
+        '200':
+          description: A list of professors matching the query.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      description: The name of the professor.
+                    credentials:
+                      type: string
+                      description: The credentials of the professor.
+                    title:
+                      type: string
+                      description: The title of the professor.
+                    headshot:
+                      type: string
+                      format: uri # Added format for consistency
+                      description: The URL of the professor's headshot.
+                    bio:
+                      type: string
+                      description: The biography of the professor.
+                    googleScholar:
+                      type: string
+                      format: uri # Added format for consistency
+                      description: The Google Scholar profile link of the professor.
+                    email:
+                      type: string
+                      format: email
+                      description: The email address of the professor.
+                    score:
+                      type: number
+                      description: The score of the professor match.
+
+  /get_upcoming_events:
+    get:
+      summary: Get upcoming events
+      description: Retrieve a list of upcoming events at the University of Virginia.
+      operationId: getUpcomingEvents
+      responses:
+        '200':
+          description: A list of upcoming events.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                      description: The name of the event.
+                    date:
+                      type: string
+                      format: date-time
+                      description: The date and time of the event.
+                    organizationName:
+                      type: string
+                      description: The name of the organization hosting the event.
+                    startDateTimeUtc:
+                      type: string
+                      format: date-time
+                      description: The start date and time of the event in UTC.
+                    endDateTimeUtc:
+                      type: string
+                      format: date-time
+                      description: The end date and time of the event in UTC.
+                    description:
+                      type: string
+                      description: The description of the event.
+                    location:
+                      type: string
+                      description: The location of the event.
+                    org_url:
+                      type: string
+                      format: uri
+                      description: The URL of the organization hosting the event.
+                    photo:
+                      type: string
+                      format: uri
+                      description: The URL of the event photo.
